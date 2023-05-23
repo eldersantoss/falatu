@@ -1,2 +1,3 @@
-# falatu
-Mini app de rede social baseado no Twitter
+# Fala tu
+
+Mini rede social baseada no Twitter
