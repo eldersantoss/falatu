@@ -36,7 +36,6 @@ jobs:
 
       - name: Run tests
         run: |
-          python manage.py migrate
           python manage.py test
         env:
           ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
