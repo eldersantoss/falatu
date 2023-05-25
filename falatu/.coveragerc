@@ -1,0 +1,16 @@
+[run]
+source = .
+branch = True
+omit =
+  */node_modules/*
+  */tests/*
+  */migrations/*
+  falatu/*
+  venv/*
+  static/*
+  manage.py
+  requirements.txt
+
+[report]
+show_missing = True
+skip_covered = True
