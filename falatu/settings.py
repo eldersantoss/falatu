@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "profiles",
 ]
 
 MIDDLEWARE = [
@@ -151,3 +153,12 @@ SECURE_SSL_REDIRECT = config("SECURE_SSL_REDIRECT", cast=bool)
 CSRF_COOKIE_SECURE = config("CSRF_COOKIE_SECURE", cast=bool)
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv())
 SESSION_COOKIE_SECURE = config("SESSION_COOKIE_SECURE", cast=bool)
+
+
+# DRF
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAdminUser",
+    ],
+}
