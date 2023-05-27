@@ -18,6 +18,7 @@ class Post(TimeStampedModel):
     class Meta:
         verbose_name = "postagem"
         verbose_name_plural = "postagens"
+        ordering = ["-created"]
 
     def __str__(self) -> str:
         return f"({self.created}) {self.author}: {self.content}"

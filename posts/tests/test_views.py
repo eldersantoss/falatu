@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.urls import reverse
+from model_mommy import mommy
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -71,3 +72,48 @@ class PostCreateViewTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Post.objects.count(), 0)
+
+
+class PostListViewTests(APITestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="testpassword",
+            first_name="Test",
+            last_name="User",
+        )
+        self.profile = Profile.objects.create(user=self.user)
+
+    def test_number_of_posts_per_page(self):
+        """
+        The max number of posts per page should be 10, the surplus should be in next page
+        """
+
+        mommy.make(Post, _quantity=15)
+
+        self.client.force_authenticate(user=self.user)
+        url = reverse("post_list")
+        response = self.client.get(url)
+
+        self.assertEqual(response.data["count"], 15)
+        self.assertEqual(len(response.data["results"]), 10)
+
+        url = response.data["next"]
+        response = self.client.get(url)
+        self.assertEqual(len(response.data["results"]), 5)
+
+    def test_post_list_exclude_logged_user_posts(self):
+        """
+        The legged user posts should not be in post list
+        """
+
+        mommy.make(Post, content="Post from another user")
+        Post.objects.create(author=self.profile, content="Logged user post")
+
+        self.client.force_authenticate(user=self.user)
+        url = reverse("post_list")
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.data["results"]), 1)
+        self.assertContains(response, "Post from another user")
+        self.assertNotContains(response, "Logged user post")
