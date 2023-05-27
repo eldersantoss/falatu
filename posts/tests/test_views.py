@@ -117,3 +117,49 @@ class PostListViewTests(APITestCase):
         self.assertEqual(len(response.data["results"]), 1)
         self.assertContains(response, "Post from another user")
         self.assertNotContains(response, "Logged user post")
+
+
+class FollowingPostListViewTests(APITestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="testpassword",
+            first_name="Test",
+            last_name="User",
+        )
+        self.profile = Profile.objects.create(user=self.user)
+
+    def test_only_followed_posts_are_returned(self):
+        """
+        Only posts of followed profiles should be returned
+        """
+
+        followed_profile = mommy.make(Profile)
+        not_followed_profile = mommy.make(Profile)
+        self.profile.follow(followed_profile)
+
+        mommy.make(
+            Post,
+            author=followed_profile,
+            content="Followed profile post",
+        )
+        mommy.make(
+            Post,
+            author=not_followed_profile,
+            content="Not followed profile post",
+        )
+
+        self.client.force_authenticate(user=self.user)
+        url = reverse("followed_post_list")
+        response = self.client.get(url)
+
+        self.assertContains(
+            response=response,
+            text="Followed profile post",
+            count=1,
+            status_code=status.HTTP_200_OK,
+        )
+        self.assertNotContains(
+            response=response,
+            text="Not followed profile post",
+        )
