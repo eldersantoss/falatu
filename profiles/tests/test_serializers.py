@@ -2,10 +2,14 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from rest_framework import serializers
 
-from ..api.v1.serializers import UserSerializer, unique_email_validator
+from ..api.v1.serializers import (
+    ProfileSerializer,
+    UserSerializer,
+    unique_email_validator,
+)
 
 
-class UserSerializerTestCase(TestCase):
+class UserSerializerTests(TestCase):
     def test_unique_email_validator_raises_error(self):
         """
         unique_email_validator should raise a ValidationError for an existing email.
@@ -94,3 +98,23 @@ class UserSerializerTestCase(TestCase):
         self.assertEqual(user.email, "test@email.com")
         self.assertEqual(user.first_name, "Test")
         self.assertTrue(user.check_password("test123"))
+
+
+class ProfileSerializerTests(TestCase):
+    def test_valid_serialization(self):
+        """
+        Serialization should be considered valid for provided valid data
+        """
+
+        valid_data = {
+            "user": {
+                "username": "test",
+                "email": "test@email.com",
+                "password": "test123",
+                "first_name": "Test",
+            }
+        }
+
+        serializer = ProfileSerializer(data=valid_data)
+
+        self.assertTrue(serializer.is_valid())
