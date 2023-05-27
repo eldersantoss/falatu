@@ -1,7 +1,5 @@
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from posts.models import Post
 
@@ -23,3 +21,12 @@ class PostListView(ListAPIView):
 
     def get_queryset(self):
         return Post.objects.exclude(author=self.request.user.profile)
+
+
+class FollowedPostListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        logged_profile = self.request.user.profile
+        return Post.objects.filter(author__in=logged_profile.get_following())
