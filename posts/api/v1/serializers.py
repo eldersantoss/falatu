@@ -1,9 +1,16 @@
 from rest_framework import serializers
 
+from profiles.api.v1.serializers import ProfileSerializer
+
 from ...models import Post
 
 
 class PostSerializer(serializers.ModelSerializer):
+    author = ProfileSerializer(read_only=True)
+
     class Meta:
         model = Post
-        fields = ["content"]
+        fields = ("id", "author", "content", "created")
+        extra_kwargs = {
+            "created": {"read_only": True},
+        }
