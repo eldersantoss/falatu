@@ -37,9 +37,31 @@ class UserSerializerTests(TestCase):
         except serializers.ValidationError:
             self.fail("unique_email_validator raised ValidationError incorrectly")
 
-    def test_valid_serialization(self):
+    def test_serialization_omit_sensible_data(self):
         """
-        Serialization should be considered valid for provided valid data.
+        Serialization should omit sensible data like email and password
+        """
+
+        user = User.objects.create_user(
+            username="testuser",
+            email="test@email.com",
+            password="testpassword",
+            first_name="Test",
+            last_name="User",
+        )
+
+        serializer = UserSerializer(user)
+
+        self.assertEqual(serializer.data["id"], user.id)
+        self.assertEqual(serializer.data["username"], user.username)
+        self.assertEqual(serializer.data["first_name"], user.first_name)
+        self.assertEqual(serializer.data["last_name"], user.last_name)
+        self.assertNotIn("password", serializer.data)
+        self.assertNotIn("email", serializer.data)
+
+    def test_valid_deserialization(self):
+        """
+        Deserialization should be considered valid for provided valid data.
         """
 
         valid_data = {
@@ -47,6 +69,7 @@ class UserSerializerTests(TestCase):
             "email": "test@email.com",
             "password": "test123",
             "first_name": "Test",
+            "last_name": "User",
         }
 
         serializer = UserSerializer(data=valid_data)

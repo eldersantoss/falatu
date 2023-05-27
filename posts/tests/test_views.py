@@ -12,6 +12,7 @@ class PostCreateViewTests(APITestCase):
     def setUp(self) -> None:
         self.user = User.objects.create_user(
             username="testuser",
+            email="test@email.com",
             password="testpassword",
             first_name="Test",
             last_name="User",
