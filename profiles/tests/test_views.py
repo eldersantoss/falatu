@@ -6,18 +6,20 @@ from rest_framework.test import APITestCase
 from profiles.models import Profile
 
 
-class UserCreateViewTests(APITestCase):
+class ProfileCreateViewTests(APITestCase):
     def test_create_user(self):
         """
         Should create a new user and your profile
         """
 
-        url = reverse("user_create")
+        url = reverse("profile_create")
         data = {
-            "username": "test",
-            "email": "test@email.com",
-            "password": "test123",
-            "first_name": "Test",
+            "user": {
+                "username": "test",
+                "email": "test@email.com",
+                "password": "test123",
+                "first_name": "Test",
+            }
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -27,10 +29,10 @@ class UserCreateViewTests(APITestCase):
         user = User.objects.get()
         profile = Profile.objects.get()
 
-        self.assertEqual(user.username, data["username"])
-        self.assertEqual(user.email, data["email"])
-        self.assertTrue(user.check_password(data["password"]))
-        self.assertEqual(user.first_name, data["first_name"])
+        self.assertEqual(user.username, data["user"]["username"])
+        self.assertEqual(user.email, data["user"]["email"])
+        self.assertTrue(user.check_password(data["user"]["password"]))
+        self.assertEqual(user.first_name, data["user"]["first_name"])
         self.assertEqual(user.profile, profile)
 
     def test_create_user_missing_required_field(self):
@@ -38,11 +40,13 @@ class UserCreateViewTests(APITestCase):
         Should not create the user because required fields are missing
         """
 
-        url = reverse("user_create")
+        url = reverse("profile_create")
         data = {
-            "username": "test",
-            "password": "test123",
-            "first_name": "Test",
+            "user": {
+                "username": "test",
+                "password": "test123",
+                "first_name": "Test",
+            }
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -53,7 +57,7 @@ class UserCreateViewTests(APITestCase):
         Should not create user because data is invalid
         """
 
-        url = reverse("user_create")
+        url = reverse("profile_create")
         data = {
             "username": "test",
             "email": "invalid_email",
