@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Profile
+
+
+@admin.register(Profile)
+class CompetitionAdmin(admin.ModelAdmin):
+    list_display = ("__str__",)
+    filter_horizontal = ["following"]
