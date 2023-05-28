@@ -52,3 +52,6 @@ jobs:
           SERVER_EMAIL: ${{ secrets.SERVER_EMAIL }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           CSRF_TRUSTED_ORIGINS: ${{ secrets.CSRF_TRUSTED_ORIGINS }}
+          SECURE_SSL_REDIRECT: ${{ secrets.SECURE_SSL_REDIRECT }}
+          SESSION_COOKIE_SECURE: ${{ secrets.SESSION_COOKIE_SECURE }}
+          CSRF_COOKIE_SECURE: ${{ secrets.CSRF_COOKIE_SECURE }}
