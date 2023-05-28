@@ -7,6 +7,7 @@ from ..api.v1.serializers import (
     UserSerializer,
     unique_email_validator,
 )
+from ..models import Profile
 
 
 class UserSerializerTests(TestCase):
@@ -37,9 +38,9 @@ class UserSerializerTests(TestCase):
         except serializers.ValidationError:
             self.fail("unique_email_validator raised ValidationError incorrectly")
 
-    def test_serialization_omit_sensible_data(self):
+    def test_user_serialization_omit_sensible_data(self):
         """
-        Serialization should omit sensible data like email and password
+        Serialization should omit user sensible data like id, email and password
         """
 
         user = User.objects.create_user(
@@ -52,14 +53,14 @@ class UserSerializerTests(TestCase):
 
         serializer = UserSerializer(user)
 
-        self.assertEqual(serializer.data["id"], user.id)
         self.assertEqual(serializer.data["username"], user.username)
         self.assertEqual(serializer.data["first_name"], user.first_name)
         self.assertEqual(serializer.data["last_name"], user.last_name)
+        self.assertNotIn("id", serializer.data)
         self.assertNotIn("password", serializer.data)
         self.assertNotIn("email", serializer.data)
 
-    def test_valid_deserialization(self):
+    def test_valid_user_deserialization(self):
         """
         Deserialization should be considered valid for provided valid data.
         """
@@ -124,9 +125,28 @@ class UserSerializerTests(TestCase):
 
 
 class ProfileSerializerTests(TestCase):
-    def test_valid_serialization(self):
+    def test_profile_serialization_omit_sensible_data(self):
         """
-        Serialization should be considered valid for provided valid data
+        Serialization should omit profile sensible data like id
+        """
+
+        user = User.objects.create_user(
+            username="testuser",
+            email="test@email.com",
+            password="testpassword",
+            first_name="Test",
+            last_name="User",
+        )
+        profile = Profile.objects.create(user=user)
+
+        serializer = ProfileSerializer(profile)
+
+        self.assertNotIn("id", serializer.data)
+        self.assertIn("user", serializer.data)
+
+    def test_valid_profile_deserialization(self):
+        """
+        Deserialization should be considered valid for provided valid data
         """
 
         valid_data = {
