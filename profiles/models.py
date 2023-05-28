@@ -2,6 +2,7 @@ from typing import Self
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Profile(models.Model):
@@ -18,6 +19,9 @@ class Profile(models.Model):
     class Meta:
         verbose_name = "Perfil"
         verbose_name_plural = "Perfis"
+
+    def get_absolute_url(self):
+        return reverse("profile_detail", args=[self.user.username])
 
     def follow(self, profile: Self):
         self.following.add(profile)

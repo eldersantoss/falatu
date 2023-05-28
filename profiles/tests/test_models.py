@@ -27,6 +27,14 @@ class ProfileModelTest(TestCase):
         """
         self.assertEqual(str(Profile._meta.verbose_name_plural), "Perfis")
 
+    def test_get_absolute_url(self):
+        """
+        The absolute url should to have /api/v1/profiles/<username>/ format
+        """
+
+        url = self.profile.get_absolute_url()
+        self.assertEqual(url, f"/api/v1/profiles/{self.profile.user}/")
+
     def test_follow_profile(self):
         """
         another_profile should be in self.profile.following and self.profile should be in another_profile.followers
