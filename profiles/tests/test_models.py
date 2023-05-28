@@ -15,17 +15,6 @@ class ProfileModelTest(TestCase):
         )
         self.profile = Profile.objects.create(user=self.user)
 
-    # def test_profile_creation(self):
-    #     user = User.objects.create_user(
-    #         username="testuser",
-    #         password="test123",
-    #         first_name="Test",
-    #         last_name="User",
-    #     )
-    #     profile = Profile.objects.create(user=user)
-    #     self.assertIsInstance(profile, Profile)
-    #     self.assertEqual(profile.user, self.user)
-
     def test_profile_str_representation(self):
         self.assertEqual(str(self.profile), self.user.get_full_name())
 
