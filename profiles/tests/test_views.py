@@ -67,3 +67,44 @@ class ProfileCreateViewTests(APITestCase):
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(User.objects.count(), 0)
+
+
+class ProfileRetrieveViewTests(APITestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="test123",
+            first_name="Test",
+            last_name="User",
+        )
+        self.profile = Profile.objects.create(user=self.user)
+        self.client.force_authenticate(user=self.user)
+
+    def test_retrieve_profile_detail(self):
+        """
+        Should return profile data including number of following and followers
+        """
+
+        url = reverse("profile_detail", args=[self.profile.user.username])
+        response = self.client.get(url)
+
+        self.assertEqual(
+            response.data["user"]["username"],
+            self.profile.user.username,
+        )
+        self.assertEqual(
+            response.data["user"]["first_name"],
+            self.profile.user.first_name,
+        )
+        self.assertEqual(
+            response.data["user"]["last_name"],
+            self.profile.user.last_name,
+        )
+        self.assertEqual(
+            response.data["following"],
+            self.profile.get_following_count(),
+        )
+        self.assertEqual(
+            response.data["followers"],
+            self.profile.get_followers_count(),
+        )

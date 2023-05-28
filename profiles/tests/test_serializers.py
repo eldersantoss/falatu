@@ -125,7 +125,7 @@ class UserSerializerTests(TestCase):
 
 
 class ProfileSerializerTests(TestCase):
-    def test_profile_serialization_omit_sensible_data(self):
+    def test_profile_serialization_result(self):
         """
         Serialization should omit profile sensible data like id
         """
@@ -144,6 +144,12 @@ class ProfileSerializerTests(TestCase):
         self.assertNotIn("id", serializer.data)
         self.assertIn("user", serializer.data)
 
+        self.assertEqual(profile.user.username, serializer.data["user"]["username"])
+        self.assertEqual(profile.user.first_name, serializer.data["user"]["first_name"])
+        self.assertEqual(profile.user.last_name, serializer.data["user"]["last_name"])
+        self.assertEqual(profile.get_following_count(), serializer.data["following"])
+        self.assertEqual(profile.get_followers_count(), serializer.data["followers"])
+
     def test_valid_profile_deserialization(self):
         """
         Deserialization should be considered valid for provided valid data
@@ -161,3 +167,6 @@ class ProfileSerializerTests(TestCase):
         serializer = ProfileSerializer(data=valid_data)
 
         self.assertTrue(serializer.is_valid())
+
+    def test_following_and_followers_count(self):
+        ...

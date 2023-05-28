@@ -42,10 +42,16 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+    following = serializers.SerializerMethodField(read_only=True)
+    followers = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Profile
-        fields = ("user",)
+        fields = (
+            "user",
+            "following",
+            "followers",
+        )
 
     def create(self, validated_data):
         user_data = validated_data.pop("user")
@@ -55,3 +61,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         user.save()
         profile = Profile.objects.create(user=user)
         return profile
+
+    def get_following(self, obj):
+        return obj.get_following_count()
+
+    def get_followers(self, obj):
+        return obj.get_followers_count()
