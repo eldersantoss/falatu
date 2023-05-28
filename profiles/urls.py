@@ -24,4 +24,9 @@ urlpatterns = [
         views.ProfileDetailView.as_view(),
         name="profile_detail",
     ),
+    path(
+        "<username>/followers/",
+        views.ProfileFollowersView.as_view(),
+        name="profile_followers",
+    ),
 ]

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.urls import reverse
+from model_mommy import mommy
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -107,4 +108,59 @@ class ProfileRetrieveViewTests(APITestCase):
         self.assertEqual(
             response.data["followers"],
             self.profile.get_followers_count(),
+        )
+
+
+class ProfileFollowersViewTests(APITestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="test123",
+            first_name="Test",
+            last_name="User",
+        )
+        self.profile = Profile.objects.create(user=self.user)
+        self.client.force_authenticate(user=self.user)
+
+    def test_follow_and_unfollow_actions(self):
+        """
+        Should follow/unfollow profile and get follower count of logged in profile and followers count of followed/unfollowed profile updated
+        """
+
+        followed_profile = mommy.make(Profile, user__username="followeduser")
+        response = self.client.post(
+            reverse(
+                "profile_followers",
+                kwargs={"username": followed_profile.user.username},
+            )
+        )
+
+        self.assertContains(
+            response=response,
+            text="logged_in_following",
+            status_code=status.HTTP_200_OK,
+        )
+
+        self.assertEqual(self.profile.get_following_count(), 1)
+        self.assertEqual(followed_profile.get_followers_count(), 1)
+        self.assertEqual(
+            self.profile.get_following_count(),
+            response.data["logged_in_following"],
+        )
+        self.assertEqual(
+            followed_profile.get_followers_count(),
+            response.data["target_followers"],
+        )
+
+        response = self.client.post(followed_profile.get_absolute_url() + "followers/")
+
+        self.assertEqual(self.profile.get_following_count(), 0)
+        self.assertEqual(followed_profile.get_followers_count(), 0)
+        self.assertEqual(
+            self.profile.get_following_count(),
+            response.data["logged_in_following"],
+        )
+        self.assertEqual(
+            followed_profile.get_followers_count(),
+            response.data["target_followers"],
         )

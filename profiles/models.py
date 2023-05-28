@@ -23,6 +23,9 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse("profile_detail", args=[self.user.username])
 
+    def is_following(self, profile: Self):
+        return self.following.filter(id=profile.id).exists()
+
     def follow(self, profile: Self):
         self.following.add(profile)
         profile.followers.add(self)
