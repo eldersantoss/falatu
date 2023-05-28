@@ -16,9 +16,15 @@ class ProfileModelTest(TestCase):
         self.profile = Profile.objects.create(user=self.user)
 
     def test_profile_str_representation(self):
+        """
+        The profile str representation should be equals to user full name
+        """
         self.assertEqual(str(self.profile), self.user.get_full_name())
 
     def test_profile_verbose_name_plural(self):
+        """
+        The profile verbose name plural should be equals to perfis
+        """
         self.assertEqual(str(Profile._meta.verbose_name_plural), "Perfis")
 
     def test_follow_profile(self):
