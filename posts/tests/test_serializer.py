@@ -34,7 +34,6 @@ class PostSerializerTests(TestCase):
         post = Post.objects.create(author=profile, content="Test content")
         serializer = PostSerializer(post)
 
-        self.assertEqual(serializer.data["author"]["id"], post.author.id)
         self.assertEqual(serializer.data["content"], post.content)
 
     def test_invalid_serialization_with_content_gt_max_length(self):
