@@ -10,7 +10,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ("id", "author", "content", "created")
+        fields = ("id", "author", "content", "image", "created")
         extra_kwargs = {
             "created": {"read_only": True},
         }

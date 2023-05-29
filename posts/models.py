@@ -14,6 +14,7 @@ class TimeStampedModel(models.Model):
 class Post(TimeStampedModel):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="posts")
     content = models.CharField("Conteúdo", max_length=140)
+    image = models.ImageField(upload_to="post_images/", blank=True)
 
     class Meta:
         verbose_name = "postagem"
