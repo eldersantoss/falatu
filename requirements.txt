@@ -20,10 +20,10 @@ model-mommy==2.0.0
 mypy-extensions==1.0.0
 packaging==23.1
 pathspec==0.11.1
+Pillow==9.5.0
 platformdirs==3.5.1
 psycopg2-binary==2.9.6
 pycparser==2.21
-Pillow==9.5.0
 PyJWT==2.7.0
 python-dateutil==2.8.2
 python-decouple==3.8
@@ -35,5 +35,6 @@ tomli==2.0.1
 typing_extensions==4.6.0
 tzdata==2023.3
 urllib3==1.26.16
+whitenoise==6.4.0
 zope.event==4.6
 zope.interface==6.0

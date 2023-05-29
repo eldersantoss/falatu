@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt",
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -168,12 +170,14 @@ SIMPLE_JWT = {
 }
 
 
-# Static and media files (AWS S3)
+# Static and media files (WhiteNoise and AWS S3)
+
+STATIC_URL = "static/"
+STATIC_ROOT = str(BASE_DIR / "static")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 if DEBUG:
-    STATIC_URL = "/static/"
-    STATIC_ROOT = str(BASE_DIR / "static")
-    MEDIA_URL = "/media/"
+    MEDIA_URL = "media/"
     MEDIA_ROOT = str(BASE_DIR / "media")
 
 else:
@@ -184,9 +188,9 @@ else:
     AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
     AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
 
-    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-    STATIC_LOCATION = "static"
-    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/"
+    # STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    # STATIC_LOCATION = "static"
+    # STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/"
 
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     PUBLIC_MEDIA_LOCATION = "media"
