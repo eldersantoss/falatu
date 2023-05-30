@@ -12,14 +12,14 @@ API desenvolvida com Django REST Framework para um app de rede social simplifica
 - [Sumário 📚](#sumário-)
 - [Recursos 💡](#recursos-)
 - [Exemplos](#exemplos)
-	- [Criação de perfil de usuário](#criação-de-perfil-de-usuário)
-	- [Obtenção de token JWT](#obtenção-de-token-jwt)
-	- [Renovação do token JWT](#renovação-do-token-jwt)
-	- [Obtenção de dados de um perfil](#obtenção-de-dados-de-um-perfil)
-	- [Seguir ou deixar de seguir um perfil](#seguir-ou-deixar-de-seguir-um-perfil)
-	- [Todas as postagens (feed geral)](#todas-as-postagens-feed-geral)
-	- [Postagens dos perfis seguidos](#postagens-dos-perfis-seguidos)
-	- [Criação de postagem](#criação-de-postagem)
+  - [Criação de perfil de usuário](#criação-de-perfil-de-usuário)
+  - [Obtenção de token JWT](#obtenção-de-token-jwt)
+  - [Renovação do token JWT](#renovação-do-token-jwt)
+  - [Obtenção de dados de um perfil](#obtenção-de-dados-de-um-perfil)
+  - [Seguir ou deixar de seguir um perfil](#seguir-ou-deixar-de-seguir-um-perfil)
+  - [Todas as postagens (feed geral)](#todas-as-postagens-feed-geral)
+  - [Postagens dos perfis seguidos](#postagens-dos-perfis-seguidos)
+  - [Criação de postagem](#criação-de-postagem)
 - [Configuração do Ambiente de Desenvolvimento ⚙️](#configuração-do-ambiente-de-desenvolvimento-️)
 - [🛠 Tecnologias](#-tecnologias)
 - [Testes Automatizados ✅](#testes-automatizados-)
@@ -61,7 +61,7 @@ data = {
 }
 response = requests.post(url, json=data)
 print(response.json())
-""" 
+"""
 {
   "user": {
     "username": "usuario1",
@@ -232,7 +232,7 @@ data = {
 image_path = '/caminho/para/imagem.png'
 response = requests.post(url, data=data, files={'image': open(image_path, 'rb')})
 print(response.json())
-""" 
+"""
 {
   "id":1,
   "author":{
@@ -264,9 +264,10 @@ Para configurar o ambiente de desenvolvimento, siga as etapas abaixo:
 ```bash
 cp .env.example .env
 ```
-  * Não esqueça de atualizar as variáveis do arquivo `.env` com base no seu ambiente.
+  - **obs:** Não esqueça de atualizar as variáveis do arquivo `.env` com base no seu ambiente.
 
 **4.** No diretório raiz do projeto, execute o comando `docker-compose up` para iniciar o ambiente de desenvolvimento.
+  - **obs:** Se encontrar problemas ao inicializar o container, experimente abrir o arquivo `scripts/start_services.sh` com seu editor de código e salvá-lo. Isso deverá alterar o caractére de fim de linha de CRLF para LF.
 
 
 **5.** Acesse a API em http://localhost:8000/.
