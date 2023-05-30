@@ -18,7 +18,12 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 # Admin data
 
-ADMINS = (config("ADMIN_NAME"), config("ADMIN_EMAIL"))
+ADMINS = (
+    (
+        config("ADMIN_NAME"),
+        config("ADMIN_EMAIL"),
+    ),
+)
 
 
 # Application definition
