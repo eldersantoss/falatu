@@ -40,9 +40,9 @@ A API oferece os seguintes endpoints:
 
 - `api/v1/profiles/<username>/followers/`: segue ou deixa de seguir um perfil. Aceita requisições POST e retorna um JSON com as informações atualizadas de seguidores e pessoas seguidas.
 
-- `api/v1/posts/`: obtém todos os posts (feed geral), exceto aqueles do próprio usuário logado. Aceita requisições GET e retorna um JSON com os dados das postagens.
+- `api/v1/posts/`: obtém todos os posts (feed geral), exceto aqueles do próprio usuário logado. Aceita requisições GET e retorna um JSON com os dados das postagens. O resultado será paginado e somente 10 itens por página serão exibidos. Para ober os próximos 10 itens, fazer uma nova requisição POST para a url encontrada no campo `next` da resposta.
 
-- `api/v1/posts/followed/`: obtém os posts dos usuários seguidos pelo usuário logado. Aceita requisições GET e retorna um JSON com os dados das postagens.
+- `api/v1/posts/followed/`: obtém os posts dos usuários seguidos pelo usuário logado. Aceita requisições GET e retorna um JSON com os dados das postagens. O resultado será paginado e somente 10 itens por página serão exibidos. Para ober os próximos 10 itens, fazer uma nova requisição POST para a url encontrada no campo `next` da resposta.
 
 - `api/v1/posts/create/`: cria uma postagem. Aceita requisições POST com um JSON contendo os dados de content e image (opcional) e retorna os dados da postagem criada.
 
@@ -63,13 +63,13 @@ response = requests.post(url, json=data)
 print(response.json())
 """ 
 {
-	"user": {
-		"username": "usuario1",
-		"first_name": "Usuário",
-		"last_name": "Um"
-	},
-	"following": 0,
-	"followers": 0
+  "user": {
+    "username": "usuario1",
+    "first_name": "Usuário",
+    "last_name": "Um"
+  },
+  "following": 0,
+  "followers": 0
 }
 """
 ```
@@ -85,8 +85,8 @@ response = requests.post(url, json=data)
 print(response.json())
 """
 {
-	"refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTk5OTY1NiwiaWF0IjoxNjg1Mzk0ODU2LCJqdGkiOiI0MmFhNDNkNGZiZGM0NWYwOTRkNjc1NjdjODM1M2MyMCIsInVzZXJfaWQiOjF9.CaPELMMWkV1Zagb4fnLdmyGJiT_q0omUUNEwo5Jt10M",
-	"access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1Mzk1NzU2LCJpYXQiOjE2ODUzOTQ4NTYsImp0aSI6ImZhNTM4ODZmNzc5ZjRmNmU5NDJjZjgwZmRhOWI5MTFjIiwidXNlcl9pZCI6MX0.xtGd3zQ6s5ifBRh_qSwwde4UEtg1uOLpBfoL5Jg1WXk"
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTk5OTY1NiwiaWF0IjoxNjg1Mzk0ODU2LCJqdGkiOiI0MmFhNDNkNGZiZGM0NWYwOTRkNjc1NjdjODM1M2MyMCIsInVzZXJfaWQiOjF9.CaPELMMWkV1Zagb4fnLdmyGJiT_q0omUUNEwo5Jt10M",
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1Mzk1NzU2LCJpYXQiOjE2ODUzOTQ4NTYsImp0aSI6ImZhNTM4ODZmNzc5ZjRmNmU5NDJjZjgwZmRhOWI5MTFjIiwidXNlcl9pZCI6MX0.xtGd3zQ6s5ifBRh_qSwwde4UEtg1uOLpBfoL5Jg1WXk"
 }
 """
 ```
@@ -101,8 +101,8 @@ response = requests.post(url, json=data)
 print(response.json())
 """
 {
-	"refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTk5OTY1NiwiaWF0IjoxNjg1Mzk0ODU2LCJqdGkiOiI0MmFhNDNkNGZiZGM0NWYwOTRkNjc1NjdjODM1M2MyMCIsInVzZXJfaWQiOjF9.CaPELMMWkV1Zagb4fnLdmyGJiT_q0omUUNEwo5Jt10M",
-	"access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1Mzk1NzU2LCJpYXQiOjE2ODUzOTQ4NTYsImp0aSI6ImZhNTM4ODZmNzc5ZjRmNmU5NDJjZjgwZmRhOWI5MTFjIiwidXNlcl9pZCI6MX0.xtGd3zQ6s5ifBRh_qSwwde4UEtg1uOLpBfoL5Jg1WXk"
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTk5OTY1NiwiaWF0IjoxNjg1Mzk0ODU2LCJqdGkiOiI0MmFhNDNkNGZiZGM0NWYwOTRkNjc1NjdjODM1M2MyMCIsInVzZXJfaWQiOjF9.CaPELMMWkV1Zagb4fnLdmyGJiT_q0omUUNEwo5Jt10M",
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg1Mzk1NzU2LCJpYXQiOjE2ODUzOTQ4NTYsImp0aSI6ImZhNTM4ODZmNzc5ZjRmNmU5NDJjZjgwZmRhOWI5MTFjIiwidXNlcl9pZCI6MX0.xtGd3zQ6s5ifBRh_qSwwde4UEtg1uOLpBfoL5Jg1WXk"
 }
 """
 ```
@@ -117,13 +117,13 @@ response = requests.get(url, headers=headers)
 print(response.json())
 """
 {
-	"user": {
-		"username": "elder",
-		"first_name": "Elder",
-		"last_name": "Santos"
-	},
-	"following": 18,
-	"followers": 27
+  "user": {
+    "username": "elder",
+    "first_name": "Elder",
+    "last_name": "Santos"
+  },
+  "following": 18,
+  "followers": 27
 }
 """
 ```
@@ -138,8 +138,8 @@ response = requests.post(url, headers=headers)
 print(response.json())
 """
 {
-    'logged_in_following': 15,
-    'target_followers': 25
+  'logged_in_following': 15,
+  'target_followers': 25
 }
 """
 ```
@@ -152,41 +152,41 @@ response = requests.post(url, headers=headers)
 print(response.json())
 """
 {
-	"count": 2,
-	"next": null,
-	"previous": null,
-	"results": [
-		{
-			"id": 2,
-			"author": {
-				"user": {
-					"username": "mariete",
-					"first_name": "Mariete",
-					"last_name": ""
-				},
-				"following": 22,
-				"followers": 29
-			},
-			"content": "Test post",
-			"image": null,
-			"created": "2023-05-26T11:20:22.312935-03:00"
-		},
-		{
-			"id": 1,
-			"author": {
-				"user": {
-					"username": "joaozinho",
-					"first_name": "Joaozinho",
-					"last_name": ""
-				},
-				"following": 7,
-				"followers": 5
-			},
-			"content": "Some funny content",
-			"image": null,
-			"created": "2023-05-25T23:09:10.729432-03:00"
-		}
-	]
+  "count":2,
+  "next":null,
+  "previous":null,
+  "results":[
+    {
+      "id":2,
+      "author":{
+        "user":{
+          "username":"mariete",
+          "first_name":"Mariete",
+          "last_name":""
+        },
+        "following":22,
+        "followers":29
+      },
+      "content":"Test post",
+      "image":null,
+      "created":"2023-05-26T11:20:22.312935-03:00"
+    },
+    {
+      "id":1,
+      "author":{
+        "user":{
+          "username":"joaozinho",
+          "first_name":"Joaozinho",
+          "last_name":""
+        },
+        "following":7,
+        "followers":5
+      },
+      "content":"Some funny content",
+      "image":null,
+      "created":"2023-05-25T23:09:10.729432-03:00"
+    }
+  ]
 }
 """
 ```
@@ -199,26 +199,26 @@ response = requests.post(url, headers=headers)
 print(response.json())
 """
 {
-	"count": 1,
-	"next": null,
-	"previous": null,
-	"results": [
-		{
-			"id": 2,
-			"author": {
-				"user": {
-					"username": "mariete",
-					"first_name": "Mariete",
-					"last_name": ""
-				},
-				"following": 22,
-				"followers": 29
-			},
-			"content": "Test post",
-			"image": null,
-			"created": "2023-05-26T11:20:22.312935-03:00"
-		},
-	]
+  "count":1,
+  "next":null,
+  "previous":null,
+  "results":[
+    {
+      "id":2,
+      "author":{
+        "user":{
+          "username":"mariete",
+          "first_name":"Mariete",
+          "last_name":""
+        },
+        "following":22,
+        "followers":29
+      },
+      "content":"Test post",
+      "image":null,
+      "created":"2023-05-26T11:20:22.312935-03:00"
+    }
+  ]
 }
 """
 ```
@@ -234,19 +234,19 @@ response = requests.post(url, data=data, files={'image': open(image_path, 'rb')}
 print(response.json())
 """ 
 {
-	"id": 1,
-	"author": {
-		"user": {
-			"username": "elder",
-			"first_name": "Elder",
-			"last_name": ""
-		},
-		"following": 0,
-		"followers": 0
-	},
-	"content": "Post with picture",
-	"image": "https://falatu-public-bucket.s3.amazonaws.com/post_images/imagem.png",
-	"created": "2023-05-28T20:09:01.546624-03:00"
+  "id":1,
+  "author":{
+    "user":{
+      "username":"elder",
+      "first_name":"Elder",
+      "last_name":""
+    },
+    "following":0,
+    "followers":0
+  },
+  "content":"Post with picture",
+  "image":"https://falatu-public-bucket.s3.amazonaws.com/post_images/imagem.png",
+  "created":"2023-05-28T20:09:01.546624-03:00"
 }
 """
 ```
