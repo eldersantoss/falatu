@@ -24,7 +24,7 @@ ADMINS = (
         config("ADMIN_EMAIL"),
     ),
 )
-
+ADMIN_USERNAME = config("ADMIN_USERNAME")
 
 # Application definition
 
