@@ -21,6 +21,7 @@ API desenvolvida com Django REST Framework para um app de rede social simplifica
 	- [Postagens dos perfis seguidos](#postagens-dos-perfis-seguidos)
 	- [Criação de postagem](#criação-de-postagem)
 - [Configuração do Ambiente de Desenvolvimento ⚙️](#configuração-do-ambiente-de-desenvolvimento-️)
+- [🛠 Tecnologias](#-tecnologias)
 - [Testes Automatizados ✅](#testes-automatizados-)
 - [Contribuindo 🤝](#contribuindo-)
 - [Licença 📝](#licença-)
@@ -269,6 +270,14 @@ cp .env.example .env
 
 **5.** Acesse a API em http://localhost:8000/ e confira se a API está em execução.
 
+
+## 🛠 Tecnologias
+
+* [Django](https://www.djangoproject.com/): framework para desenvolvimento web em Python que facilita a criação de aplicativos web robustos e escaláveis.
+* [Django REST Framework](https://www.django-rest-framework.org/): biblioteca poderosa e flexível para desenvolvimento de APIs Web em Django.
+* [PostgreSQL](https://www.postgresql.org/): banco de dados relacional de código aberto, robusto e altamente escalável, que suporta recursos avançados como consultas complexas, índices, transações ACID e replicação.
+* [Docker](https://www.docker.com/): plataforma para criação e execução de aplicativos em contêineres, proporcionando isolamento, portabilidade e facilidade na implantação.
+* [AWS S3](https://aws.amazon.com/pt/s3/): serviço de armazenamento em nuvem escalável e durável, que permite armazenar e recuperar facilmente qualquer quantidade de dados de qualquer lugar na web.
 
 ## Testes Automatizados ✅
 
