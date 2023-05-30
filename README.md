@@ -259,16 +259,17 @@ Para configurar o ambiente de desenvolvimento, siga as etapas abaixo:
 
 **2.** Certifique-se de ter o Docker Compose instalado em seu sistema.
 
-**3.** No diretório raiz do projeto, execute o comando `docker-compose up` para iniciar o ambiente de desenvolvimento.
-
-**4.** Crie o arquivo `.env` com base no arquivo `.env.example`:
+**3.** Crie o arquivo `.env` com base no arquivo `.env.example`:
 
 ```bash
 cp .env.example .env
 ```
   * Não esqueça de atualizar as variáveis do arquivo `.env` com base no seu ambiente.
 
-**5.** Acesse a API em http://localhost:8000/ e confira se a API está em execução.
+**4.** No diretório raiz do projeto, execute o comando `docker-compose up` para iniciar o ambiente de desenvolvimento.
+
+
+**5.** Acesse a API em http://localhost:8000/.
 
 
 ## 🛠 Tecnologias
@@ -286,6 +287,7 @@ Este projeto inclui testes automatizados implementados com as ferramentas de tes
 1. Certifique-se de ter o ambiente de desenvolvimento configurado e em execução.
 
 2. No diretório raiz do projeto, execute o comando `docker-compose run web coverage run manage.py test` para executar os testes automatizados.
+
 3. (Opcional ) Se quiser visualizar o relatório de cobertura dos testes em html, execute `docker-compose run web coverage html` e a pasta htmlcov será criada com todas as informações detalhadas sobre o resultado dos testes. Para visualizar esses resultados, execute `python -m http.server -d htmlcov 8001`
 
 ## Contribuindo 🤝
